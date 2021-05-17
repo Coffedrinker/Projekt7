@@ -19,9 +19,9 @@ disp("En genomsnittlig kovariansmatris")
 str = "antal fel: " + fel + "   |   andel fel: " + andelFel;
 disp(str)
 
-disp("-------------1000 körningar med 'ny' data genomsnitt!------------------")
-fel = zeros(1000,2);
-felmed = zeros(1000,2);
+disp("---------2000 körningar med 'ny' data genomsnitt!---------------")
+fel = zeros(2000,2);
+felmed = zeros(2000,2);
 for i = 1: size(fel,1)
     [D1, D1c, D2, D2c] = select(features, class);
     [cov1,cov2,cov3] = kovarians(D1,D1c);
@@ -34,10 +34,15 @@ for i = 1: size(fel,1)
 end
 disp("---separata kovariansmatriser---")
 str = "Genomsnitt antal fel: " + mean(fel(:,1)) + "   |   Genomsnitt andel fel: " + mean(fel(:,2));
+str2 = "Störst antal fel i en körning: " + max(fel(:,1));
 disp(str)
+disp(str2)
+
 disp("---Medelvärd kovariansmatris---")
 str = "Genomsnitt antal fel: " + mean(felmed(:,1)) + "   |   Genomsnitt andel fel: " + mean(felmed(:,2));
+str2 = "Störst antal fel i en körning: " + max(felmed(:,1));
 disp(str)
+disp(str2)
 
 function [fel, relFel] = comp(data,dataClass,cov1,cov2,cov3,my1,my2,my3,p1,p2,p3)
     K = klassa(data,cov1,cov2,cov3,my1,my2,my3,p1,p2,p3);
@@ -50,6 +55,7 @@ function [fel, relFel] = comp(data,dataClass,cov1,cov2,cov3,my1,my2,my3,p1,p2,p3
     end
     relFel = fel/size(data,1);
 end
+
 function klassificering = klassa(data,cov1,cov2,cov3,my1,my2,my3,p1,p2,p3)
     klassificering = zeros(size(data, 1),1);
     for i = 1: size(data, 1)
@@ -67,6 +73,7 @@ function klassificering = klassa(data,cov1,cov2,cov3,my1,my2,my3,p1,p2,p3)
         end
     end
 end
+
 function [D1,D1c,D2,D2c] = select(features, class)
     vect = randsample(150, 75);
     D1 = [];
